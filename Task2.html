@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<title>Задание №2</title>
+<style>  
+	body{
+	background-color: #EEF0E2;}
+	</style>
+<h2>Возможные значения для ввода: 'Cameroon', 'Fiji Islands', 'Guatemala', 'Japan', 'Yugoslavia', 'Tanzania' ,
+	'Bamenda','Suva','Quetzaltenango', 'Subotica','Zanzibar'.
+	
+	</h2>
+<h2>
+	Ошибка происходит из за  того, в асинхронном callback
+	методе используется переменная request, которая
+	вычисляется  в синхронном потоке, который запускает 
+	обращение к сервису.
+	Самое простое решение проблемы, это передача этой 
+	переменной в callback метод как параметр.
+	Тогда не нарушается условия асинхронного запуска сразу
+	трёх запросов к сервису. 
+	Данные ошибки возникают при исправлении сихроннного 
+	кода, в асинхронный. 
+	Избежать данные проблемы помогают основные принципы 
+	рефакторинга. Описанные в книге 
+Мартина Фаулера "рефакторинг"</h2>
+		<script type="text/javascript">
+			/** 
+				* Реализация API, не изменяйте ее
+				* @param {string} url
+				* @param {function} callback
+				*/
+				function getData(url, callback) {
+					var RESPONSES = {
+						'/countries': [
+						{name: 'Cameroon', continent: 'Africa'},
+						{name :'Fiji Islands', continent: 'Oceania'},
+						{name: 'Guatemala', continent: 'North America'},
+						{name: 'Japan', continent: 'Asia'},
+						{name: 'Yugoslavia', continent: 'Europe'},
+						{name: 'Tanzania', continent: 'Africa'}
+						],
+						'/cities': [
+						{name: 'Bamenda', country: 'Cameroon'},
+						{name: 'Suva', country: 'Fiji Islands'},
+						{name: 'Quetzaltenango', country: 'Guatemala'},
+						{name: 'Osaka', country: 'Japan'},
+						{name: 'Subotica', country: 'Yugoslavia'},
+						{name: 'Zanzibar', country: 'Tanzania'},
+						],
+						'/populations': [
+						{count: 138000, name: 'Bamenda'},
+						{count: 77366, name: 'Suva'},
+						{count: 90801, name: 'Quetzaltenango'},
+						{count: 2595674, name: 'Osaka'},
+						{count: 100386, name: 'Subotica'},
+						{count: 157634, name: 'Zanzibar'}
+						]
+					};
+					
+					setTimeout(function () {
+						var result = RESPONSES[url];
+						if (!result) {
+							return callback('Unknown url');
+						}
+						
+						callback(null, result, url);
+					}, Math.round(Math.random * 1000));
+				}
+				
+				/**
+					* Мои изменения 
+					* Автор Мальцев Максим
+					*/
+					var requests = ['/countries', '/cities', '/populations'];
+					var responses = {};			
+					
+					var callback = function (error, result, url) { 				
+						responses[url] = result;
+						var l = [];
+						for (K in responses)
+						l.push(K);
+						
+						if (l.length == 3) {
+							var c = [], cc = [], p = 0;
+							var nameСountryOrCity= prompt('Введите название страны или города').trim();
+							nameСountryOrCity=nameСountryOrCity.charAt(0).toUpperCase() + nameСountryOrCity.substr(1).toLowerCase();
+							
+							
+							for ( var i = 0; i < responses['/countries'].length; i++) {
+								if (responses['/countries'][i].name === nameСountryOrCity) {
+									c.push(responses['/countries'][i].name);
+								}
+							}
+							if	(c.length==0)
+							{						
+								for ( var i = 0; i < responses['/cities'].length; i++) {			
+									if (responses['/cities'][i].name === nameСountryOrCity) {
+										cc.push(responses['/cities'][i].name);
+									}		
+								}							
+							}else								
+							{ 
+								for (var i = 0; i < responses['/cities'].length; i++) {	
+									for (j = 0; j < c.length; j++) {									
+										if (responses['/cities'][i].country === c[j]) {
+											cc.push(responses['/cities'][i].name);
+										}									
+									}
+								}					
+							}
+							
+							for (var i = 0; i < responses['/populations'].length; i++) {
+								for (j = 0; j < cc.length; j++) {
+									if (responses['/populations'][i].name === cc[j]) {
+										p += responses['/populations'][i].count;
+									}
+								}
+							}
+							
+							console.log('Total population in '+ nameСountryOrCity+': ' + p);
+							alert('Total population in '+ nameСountryOrCity+': ' + p);
+						}
+					};
+					for (i = 0; i < 3; i++) {   
+						var request = requests[i];
+						getData(request, callback);
+					}
+					
+					
+				</script>						

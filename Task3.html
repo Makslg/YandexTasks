@@ -1,0 +1,332 @@
+﻿<html>
+	<head>
+        <meta charset="utf16">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>	
+		<script type="text/javascript"  src="http://jdataview.github.io/dist/jdataview.js"></script>
+		<style>
+			#content{
+			padding-top:50px;
+			width:540px;
+			margin:auto;
+			-webkit-box-shadow: 0px 10px 54px 35px rgba(0,0,0,0.71);
+			-moz-box-shadow: 0px 10px 54px 35px rgba(0,0,0,0.71);
+			box-shadow: 0px 10px 54px 35px rgba(0,0,0,0.71);
+			background-image: radial-gradient(#ffffff, #ff7300);
+			padding:10px
+			}
+			#drop_zone
+			{
+			border: 4px dotted black;
+			width:510px;
+			height:150px; 
+			
+			}
+			input[type="range"]
+			{ 
+			width:25px;
+			margin:0px;
+			padding:0px;
+			-webkit-appearance: slider-vertical
+			}
+			body {			
+			background-color:#EEF0E2
+			}					
+		</style>
+		<script>
+			$(function(){
+				var outputName = [];
+			    var context = new (window.AudioContext || window.webkitAudioContext||
+				window.mozAudioContext ||
+				window.oAudioContext ||
+				window.msAudioContext)();				
+                var source = context.createMediaElementSource(audio_player);
+				var gainNode = context.createGain();
+				var analyser = context.createAnalyser();
+				analyser.fftSize = 2048;
+                var bufferLength = analyser.frequencyBinCount;
+                var dataArray = new Uint8Array(bufferLength);				
+				var canvas=document.getElementById("visualizer");
+				var canvasCtx=canvas.getContext("2d");				
+				canvasCtx.clearRect(0, 0, canvas.width, canvas.height);			
+				var createFilter = function (frequency) {
+					var filter = context.createBiquadFilter();					
+					filter.type = 'peaking'; // тип фильтра
+					filter.frequency.value = frequency; // частота
+					filter.Q.value = 1; // Q-factor
+					filter.gain.value = 0;					
+					return filter;
+				};			
+				var createFilters = function () {
+					var frequencies = [31,63,87,125,175,250,350,500,700, 1000,1400,2000,2800,4000,5600, 8000, 11200, 16000],
+					filters = frequencies.map(createFilter);				
+					filters.reduce(function (prev, curr) {
+						prev.connect(curr);
+						return curr;
+					});					
+					return filters;
+				};				
+				var equalize = function () {
+					filters = createFilters();
+					// источник цепляем к первому фильтру 
+					source.connect(filters[0]);
+					// а последний фильтр - к выходу
+					filters[filters.length - 1].connect(context.destination);
+				};						
+				var bindEvents = function () {
+					$("input[type='range']").each(function (i, item) {
+						$(item).change(function (e) {							
+							filters[i].gain.value = e.target.value;						
+							$(item).attr("title",$(item).attr("StartTitle")+e.target.value+" dB");							
+						});
+					});
+				};		
+				function draw() {
+					drawVisual = requestAnimationFrame(draw);
+					analyser.getByteTimeDomainData(dataArray);
+					canvasCtx.fillStyle = 'rgb(200, 200, 200)';
+					canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+					canvasCtx.lineWidth = 2;
+					canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
+					canvasCtx.beginPath();
+					var sliceWidth = canvas.width * 1.0 / bufferLength;
+					var x = 0;	
+					for(var i = 0; i < bufferLength; i++) {						
+						var v = dataArray[i] / 128.0;
+						var y = v *canvas.height/2;						
+						if(i === 0) {
+							canvasCtx.moveTo(x, y);
+							} else {
+							canvasCtx.lineTo(x, y);
+						}						
+						x += sliceWidth;
+					}
+					canvasCtx.lineTo(canvas.width, canvas.height/2);
+					canvasCtx.stroke();
+				};	
+				if (window.File && window.FileReader && window.FileList && window.Blob) {
+					} else {
+					alert('К сожалению проигрователь не поддерживается вашим браузером');
+				}
+				function handleFileSelect(evt) {
+					
+					var files = evt.target.files; 
+					OutputNameFiles(files);
+				}		
+				function OutputNameFiles(files){
+					outputName=[];
+					renderImage(files[0]);
+					var file = URL.createObjectURL(files[0]); 
+					audio_player.src = file;
+					audio_player.play();
+				};				
+				function renderImage(file) {					
+					var reader = new FileReader();							
+					reader.onload = function(e) {
+						var dv = new jDataView(this.result);						
+						if (dv.getString(3, dv.byteLength - 128) == "TAG") {
+							var title = dv.getString(30, dv.tell());
+							var artist = dv.getString(30, dv.tell());
+							var album = dv.getString(30, dv.tell());
+							var year = dv.getString(4, dv.tell());
+							var komt = dv.getString(30, dv.tell());						
+							} else {
+							// no ID3v1 data found.
+						}
+						outputName.push('<li><b>Имя файла: </b>"', 
+						file.name,
+						'"</li><li><b>  Название: </b>"',
+						title,
+						'"</li><li><b> Артист: </b>"',
+						artist,
+						'"</li><li><b> Альбом: </b>"',					
+						album ,
+						'"</li><li><b> Год записи: </b>"',
+						year , 
+						'"</li><li><b> Комментарий: </b>"',
+						komt,				
+						'"</li>');
+						$('#list').html('<ul>' + outputName.join('') + '</ul>');
+						
+					};					
+					reader.readAsArrayBuffer(file);
+				}				
+				function handleFileDrop(evt) {
+					evt.stopPropagation();
+					evt.preventDefault();
+					var files = evt.dataTransfer.files; 
+					OutputNameFiles(files);
+				}				
+				function handleDragOver(evt) {
+					evt.stopPropagation();
+					evt.preventDefault();
+					evt.dataTransfer.dropEffect = 'copy'; 
+				}				
+				var dropZone = document.getElementById('drop_zone');
+				dropZone.addEventListener('dragover', handleDragOver, false);
+				dropZone.addEventListener('drop', handleFileDrop, false);				
+				$('#audio_file').change(handleFileSelect);	
+				$("#settings").change(function(){
+					var hzInputs=	$(".eq-wrap>input");
+					for (var i = 0, h; h = hzInputs[i]; i++) {
+						$(h).val($("#settings>option:selected").attr("Hz"+i));	
+						$(h).change();
+					}		
+				});		
+				source.connect(analyser);		
+				source.connect(gainNode);			
+				gainNode.connect(context.destination);
+				gainNode.gain.value = 1;
+				audio_player.volume =1;
+				bindEvents();
+				equalize();	
+				draw();				
+			});		
+		</script>
+	</head>
+	<body><br/><br/>
+		<div id="content">
+			<canvas id="visualizer" width="520" height="100" ></canvas>
+			<br/>
+			<br/>
+			<div class="eq-wrap">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="31 Hz " >			
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="63 Hz ">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="87 Hz ">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="125 Hz ">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="175 Hz ">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="250 Hz ">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="350 Hz ">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="500 Hz ">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="700 Hz ">			
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="1,0 KHz ">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="1,4 KHz ">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="2,0 KHz ">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="2,8 KHz ">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="4,0 KHz ">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="5,6 KHz ">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="8,0 KHz ">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="11,2 KHz ">
+				<input min="-15" max="15" step="0.01" value="0" type="range" orient="vertical" StartTitle="16,0 KHz ">
+			</div>
+			<br/>
+			<label for="settings"> Загрузить настройки</label>
+			<select id="settings"> 				
+				<option selected  Hz0="0.0"
+				Hz1="0.0" 
+				Hz2="0.0" 
+				Hz3="0.0" 
+				Hz4="0.0" 
+				Hz5="0.0" 
+				Hz6="0.0" 
+				Hz7="0.0"
+				Hz8="0.0" 
+				Hz9="0.0"
+				Hz10="0.0"
+				Hz11="0.0"
+				Hz12="0.0" 
+				Hz13="0.0" 
+				Hz14="0.0"
+				Hz15="0.0"  
+				Hz16="0.0" 
+				Hz17="0.0"
+				>Normal</option>
+				<option  
+				Hz0="-1.58" 
+				Hz1="0.6" 
+				Hz2="3.9"
+				Hz3="5.4" 
+				Hz4="5.53"
+				Hz5="4.5" 
+				Hz6="2.1" 
+				Hz7="0.9" 
+				Hz8="-0.6" 
+				Hz9="-1.5" 
+				Hz10="-1.5"
+				Hz11="-1.8" 
+				Hz12="-2.1"
+				Hz13="-2.1"
+				Hz14="-2.7"
+				Hz15="-2.1" 
+				Hz16="-2.1" 
+				Hz17="0.3">Pop</option>
+				<option  
+				Hz0="5.4" 
+				Hz1="4.5" 
+				Hz2="3.6" 
+				Hz3="-3.65" 
+				Hz4="-6.3" 
+				Hz5="-6.6" 
+				Hz6="-3.6"  
+				Hz7="-2.7" 
+				Hz8="-0.3" 
+				Hz9="2.1" 
+				Hz10="4.5" 
+				Hz11="6.0" 
+				Hz12="6.9" 
+				Hz13="7.5" 
+				Hz14="7.8" 
+				Hz15="7.8"  
+				Hz16="7.8" 
+				Hz17="8.1">Rock</option>
+				<option  
+				Hz0="3.03" 
+				Hz1="6.27" 
+				Hz2="5.4" 
+				Hz3="3.6" 
+				Hz4="1.8" 
+				Hz5="-3.9" 
+				Hz6="-4.85" 
+				Hz7="-5.1" 
+				Hz8="-2.1" 
+				Hz9="1.2" 
+				Hz10="4.5" 
+				Hz11="9.0" 
+				Hz12="3.0" 
+				Hz13="-1.8" 
+				Hz14="-4.5" 
+				Hz15="-2.40"  
+				Hz16="-0.47" 
+				Hz17="2.48">Jazz</option>
+				<option  
+				Hz0="0.0" 
+				Hz1="0.0" 
+				Hz2="0.0" 
+				Hz3="0.0" 
+				Hz4="0.0" 
+				Hz5="0.0" 
+				Hz6="0.0"  
+				Hz7="0.0" 
+				Hz8="0.0" 
+				Hz9="0.0" 
+				Hz10="0.0" 
+				Hz11="0.0" 
+				Hz12="0.0" 
+				Hz13="-2.86" 
+				Hz14="-5.83" 
+				Hz15="-5.83"  
+				Hz16="-6.0" 
+				Hz17="-8.1">Classic</option>
+			</select>
+			<br/>		
+			<br/>		
+			<audio id="audio_player" controls >					
+			</audio>			
+			<br/>			   
+			<br/>
+			<input id="audio_file" type="file" accept="audio/*" />
+			<br/>
+			<br/>
+			<div id="drop_zone" >	
+				<br/>
+				<br/>
+				<br/>
+				<span style="padding:100px;">Перетащите файлы сюда</span>
+			</div>
+			<br/>
+			<br/>
+			<output id="list"></output>
+			
+			<br/>			
+		</div>
+	</body>
+</html>

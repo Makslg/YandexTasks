@@ -1,0 +1,385 @@
+﻿<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Табло аэропорта">
+    <meta name="author" content="Мальцев Максим">
+    <link rel="icon" href="img/favicon.ico">
+    <title>Табло аэропорта</title> 
+    <link href="css/bootstrap.min.css" rel="stylesheet">   
+	<link href="starter-template.css" rel="stylesheet">
+	
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Табло аэропорта</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="mailto:makslg1@mail.ru?subject=Ответ%20от%20Яндекса&body=Уважаемый%20Максим%20Анатольевич.%20Вы%20успешно%20выполнили%20задание%20и%20мы%20вас%20приглашаем%20пройти%20обучение.">Отправить письмо автору</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+    <div class="container">
+		<div class="starter-template">
+			<h1>Раписание вылетов</h1>	
+			<div class="chb">	
+				<label class="checkbox-inline">
+					<input type="checkbox" id="sortie" value="Вылет" checked>Вылет
+				</label>
+				<label class="checkbox-inline">
+					<input type="checkbox" id="landing" value="Прилет" checked>Прилет
+				</label>				
+			</div>
+			<table class="table table-bordered ">				
+				<tr id="fixedInTop">
+				    <td>Тип рейса</td>
+					<td>Плановое время</td>
+					<td>Номер рейса</td>
+					<td>Авиакомпания</td>
+					<td>Логотип<span class="hidden-xs"> авиакомпании</span></td>
+					<td>Тип <span class="hidden-xs">воздушного</span> судна</td>
+					<td>Аэропорт&nbsp;<span class="hidden-xs">назначения</span></td>
+					<td>Терминал</td>
+					<td>Статус рейса</td>
+					<td>Примечание</td>
+				</tr>
+			</table>			
+			<table class="table table-bordered">					
+				<tr class="template">
+					<td>Тип рейса</td>
+			    	<td>Плановое время</td>
+					<td>Номер рейса</td>
+					<td>Авиакомпания</td>
+					<td>Логотип<span class="hidden-xs"> авиакомпании</span></td>
+					<td>Тип <span class="hidden-xs">воздушного</span> судна</td>
+					<td>Аэропорт&nbsp;<span class="hidden-xs">назначения</span></td>
+					<td>Терминал</td>
+					<td>Статус рейса</td>
+					<td>Примечание</td>
+				</tr>		
+				
+				<tr >
+					<td>Вылет</td>
+					<td>00:05 27.07.2015</td>
+					<td>UN&nbsp;354</td>						
+					<td>Трансаэро</td>
+					<td><img src="img/Трансаэро.png" class="company-logo" alt="Трансаэро" width="50" height="8"></td>
+					<td>B<span class="hidden-xs">oeing </span>757</td>
+					<td>Лондон (Хитроу)</td>						
+					<td>А</td>
+					<td>Прилетел в 00:19. Закончена выд. багажа на А13</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr>
+					<td>Вылет</td>
+					<td>00:05 27.07.2015</td>
+					<td>UN&nbsp;722</td>						
+					<td>Трансаэро</td>
+					<td><img src="img/Трансаэро.png" class="company-logo" alt="Трансаэро" width="50" height="8"></td>
+					<td>B<span class="hidden-xs">oeing </span>757</td>
+					<td>Энфида (Хаммамет)</td>						
+					<td>А</td>
+					<td>Прилетел в 02:44. Закончена выд. багажа на А13</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr >
+					<td>Вылет</td>
+					<td>00:05 27.07.2015</td>
+					<td>VS&nbsp;7104</td>						
+					<td>Вёрджин атлантик эйрвейз</td>
+					<td><img src="img/bb09e210d94d713cdc8662347e1b2ff5.png" class="company-logo" alt="Вёрджин атлантик эйрвейз" width="49" height="18"></td>
+					<td>B<span class="hidden-xs">oeing </span>757</td>
+					<td>Лондон (Хитроу)</td>						
+					<td>А</td>
+					<td>Прилетел в 00:19. Закончена выд. багажа на А13</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr >
+					<td>Прилет</td>
+					<td>00:10 27.07.2015</td>
+					<td>ДР&nbsp;408</td>						
+					<td>Победа</td>
+					<td><img src="img/5b228fa249681d4638a673465ba2806f.png" class="company-logo" alt="Победа" width="50" height="11"></td>
+					<td>B<span class="hidden-xs">oeing </span>757</td>
+					<td>Екатеринбург (Кольцово)</td>						
+					<td>Д</td>
+					<td>Прилетел в 00:01. Закончена выд. багажа на Д04</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr >
+					<td>Прилет</td>
+					<td >00:20 27.07.2015</td>
+					<td>ДР&nbsp;272</td>						
+					<td>Победа</td>
+					<td><img src="img/5b228fa249681d4638a673465ba2806f.png" class="company-logo" alt="Победа" width="50" height="11"></td>
+					<td>B<span class="hidden-xs">oeing </span>757</td>
+					<td>Сургут</td>						
+					<td >А</td>
+					<td>Прилетел 26.07 в 23:42. Закончена выдача багажа</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr >
+					<td>Вылет</td>
+					<td>00:25  27.07.2015 </td>
+					<td>UN&nbsp;276</td>						
+					<td>Трансаэро </td>
+					<td><img src="img/Трансаэро.png" class="company-logo" alt="Трансаэро" width="50" height="8"></td>									
+					<td>A<span class="hidden-xs">irbus </span>330</td>
+					<td>Алматы</td>						
+					<td>А</td>
+					<td>Прилетел в 01:31. Закончена выд. багажа на А13</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr>
+					<td>Прилет</td>
+					<td>00:50  27.07.2015 </td>
+					<td>UN&nbsp;2208</td>						
+					<td>Трансаэро</td>
+					<td><img src="img/Трансаэро.png" class="company-logo" alt="Трансаэро" width="50" height="8"></td>
+					<td>B<span class="hidden-xs">oeing </span>757</td>
+					<td>Одесса (Интернэйшнл)</td>						
+					<td>А</td>
+					<td>Прилетел в 00:50. Закончена выд. багажа на А12</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr >
+					<td>Вылет</td>
+					<td >01:05  27.07.2015 </td>
+					<td>UN&nbsp;384</td>						
+					<td>Трансаэро </td>
+					<td><img src="img/Трансаэро.png" class="company-logo" alt="Трансаэро" width="50" height="8"></td>
+					<td>A<span class="hidden-xs">irbus </span>330</td>
+					<td>Вена</td>						
+					<td>А</td>
+					<td>Прилетел в 01:14. Закончена выд. багажа на А11</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr>
+					<td>Прилет</td>
+					<td >01:05  27.07.2015 </td>
+					<td>OS&nbsp;7073</td>						
+					<td>Австрийские авиалинии </td>
+					<td><img src="img/a983f8e25aebb6d7bc32d656d41efa75.jpg" class="company-logo" alt="Австрийские авиалинии" width="49" height="18"></td>
+					<td>A<span class="hidden-xs">irbus </span>330</td>
+					<td>Вена</td>						
+					<td>А</td>
+					<td>Прилетел в 01:14. Закончена выд. багажа на А11</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr >
+					<td>Вылет</td>
+					<td class="col-md-2">01:05  27.07.2015 </td>
+					<td>УН&nbsp;2418</td>						
+					<td>Трансаэро </td>
+					<td><img src="img/Трансаэро.png" class="company-logo" alt="Трансаэро" width="50" height="8"></td>
+					<td>B<span class="hidden-xs">oeing </span>757</td>
+					<td>Симферополь (Интернэйшнл)</td>						
+					<td>А</td>
+					<td>Прилетел в 02:27. Закончена выд. багажа на А06</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr>
+					<td>Прилет</td>
+					<td>01:20  27.07.2015 </td>
+					<td>ДР&nbsp;118</td>						
+					<td>Победа</td>
+					<td><img src="img/5b228fa249681d4638a673465ba2806f.png" class="company-logo" alt="Победа" width="50" height="11"></td>
+					<td>A<span class="hidden-xs">irbus </span>330</td>
+					<td>Сочи (Адлер)</td>						
+					<td>А</td>
+					<td>Прилетел в 01:04. Закончена выд. багажа на А05</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr >
+					<td>Вылет</td>
+					<td>01:35  27.07.2015 </td>
+					<td>4U&nbsp;994</td>
+					
+					<td>Джёрманвингз </td>
+					<td><img src="img/15d8c1b970f7196d3ffc9f79df9f11f4.jpg" class="company-logo" alt="Джёрманвингз" width="50" height="13"></td>
+					<td>A<span class="hidden-xs">irbus </span>330</td>
+					<td>Кельн (Кельн/Бонн)</td>						
+					<td>В</td>
+					<td>Прилетел в 01:43. Закончена выд. багажа на В01</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr>
+					<td>Прилет</td>
+					<td>01:40  27.07.2015 </td>
+					<td>TK&nbsp;211</td>
+					
+					<td>Турецкие авиалинии </td>
+					<td><img src="img/21d00999f524fa4ee5eb19528fc995ac.jpg" class="company-logo" alt="Турецкие авиалинии" width="46" height="20"></td>
+					<td>B<span class="hidden-xs">oeing </span>757</td>
+					<td>Анталья</td>						
+					<td>А</td>
+					<td>Прилетел в 01:26. Закончена выд. багажа на А09</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr >
+					<td>Вылет</td>
+					<td>01:40  27.07.2015 </td>
+					<td>BT&nbsp;416</td>						
+					<td>эйрБалтик </td>
+					<td><img src="img/d70ac2df62dac394e6f9a444a7619a19.jpg" class="company-logo" alt="эйрБалтик" width="42" height="20"></td>
+					<td>A<span class="hidden-xs">irbus </span>330</td>
+					<td>Рига (Интернэйшнл)</td>						
+					<td>А</td>
+					<td>Прилетел в 01:35. Закончена выд. багажа на А12</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr>
+					<td>Прилет</td>
+					<td>01:45  27.07.2015 </td>
+					<td>UT&nbsp;9016</td>					
+					<td>ЮТэйр </td>
+					<td><img src="img/76aeb82550409d90f7ccf5db9d164dd2.jpg" class="company-logo" alt="ЮТэйр" width="50" height="20">											</td>
+					<td>A<span class="hidden-xs">irbus </span>330</td>
+					<td>Шарм Эль Шейх (Интернэйшнл)</td>						
+					<td>В</td>
+					<td>Прилетел в 01:01. Закончена выд. багажа на В01</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr >
+					<td>Вылет</td>
+					<td>01:55  27.07.2015 </td>
+					<td>UN&nbsp;820</td>					
+					<td>Трансаэро </td>
+					<td><img src="img/Трансаэро.png" class="company-logo" alt="Трансаэро" width="50" height="8"></td>
+					<td>A<span class="hidden-xs">irbus </span>330</td>
+					<td>Анталья</td>						
+					<td>А</td>
+					<td>Прилетел в 02:18. Закончена выд. багажа на А10</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>
+				<tr>
+					<td>Прилет</td>
+					<td>02:00  27.07.2015 </td>
+					<td>TK&nbsp;419</td>						
+					<td>Турецкие авиалинии</td>
+					<td><img src="img/21d00999f524fa4ee5eb19528fc995ac.jpg" class="company-logo" alt="Турецкие авиалинии" width="46" height="20"></td>
+					<td>B<span class="hidden-xs">oeing </span>757</td>
+					<td>Стамбул (Ататюрк)</td>						
+					<td>А</td>
+					<td>Прилетел в 01:28. Закончена выд. багажа на А10</td>
+					<td>информация о код-шеринге с другими авиакомпаниями</td>
+				</tr>	
+			</table>
+		</div>
+	</div>
+	
+	
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Данные о рейсе</h4>
+				</div>
+				<div class="modal-body">
+					Модальное окно
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	
+	<script>
+		$(function(){	
+		   //Разметка страницы
+			$("tr").each(function( index ) {
+				var trtd=$(this).find("td");
+		    	$(trtd[0]).addClass("col-md-1");
+				$(trtd[1]).addClass("col-md-1").addClass("col-xs-6");
+				$(trtd[2]).addClass("col-md-1").addClass("col-sm-2"); 
+				$(trtd[3]).addClass("col-md-1").addClass("hidden-sm").addClass("hidden-xs"); 
+				$(trtd[4]).addClass("col-md-1");
+				$(trtd[5]).addClass("col-md-1"); 
+				$(trtd[6]).addClass("col-md-1").addClass("hidden-sm").addClass("hidden-xs") ; 
+				$(trtd[7]).addClass("col-md-1").addClass("hidden-sm").addClass("hidden-xs"); 
+				$(trtd[8]).addClass("col-md-3").addClass("col-sm-7").addClass("hidden-xs"); 
+				$(trtd[9]).addClass("col-md-1").addClass("hidden-sm").addClass("hidden-xs");
+			});	
+			//выделение столбца при  наведении мышкой
+			$("td").hover(
+			function(){		
+				$("td").removeClass("info")			   
+				var index= $(this).index()+1;
+				$("tr td:nth-child("+index+")").addClass("info");				   
+			});
+			//выделение строки при  наведении мышкой
+			$("tr").hover(
+			function(){		
+				$("tr").removeClass("info")
+				$(this).addClass("info");			   
+			});
+			//Построение модального окна при клике по строчке
+			$("tr:not('.template, #fixedInTop, .chb')").click(function(){	
+				$(".modal-body").html("");
+				var ClickedTr=this;
+				$("tr:eq(0)").find("td").each( function(index,value ){				
+					$(".modal-body").append("<b>"+$(value).html()+"</b> : "+$(ClickedTr).find("td:eq("+index+")").html()+"<br>");	
+				});
+				$('#myModal').modal('show')
+			});		
+			
+			//Изменение размера прилипающего заголовка тоблицы
+			$( window ).resize(function() {
+				$("#fixedInTop>td").each(function(index,value ){				
+					$(value).width($(".template>td:eq("+index+")").width());
+				});
+				$("#fixedInTop").width($(".template").width());				
+			});
+			$( window ).resize();	
+			
+			//Логика появления и исцезание прилипающего заголовка при скролинге
+			var start_pos=$('.template').offset().top;
+			$(window).scroll(function(){
+				if ($(window).scrollTop()>=start_pos) {
+					if ($('#fixedInTop').hasClass()==false) 
+					{
+						$('#fixedInTop').addClass('to_top');
+					}
+				}
+				else $('#fixedInTop').removeClass('to_top');
+			});			
+			//Управление филтром спомощью чекбоксов
+			$("input").click(function(){			
+				if($(this).prop("checked"))
+				{	
+					$("tr>td:first-child:contains("+$(this).val()+")").parent().removeClass('hidden');
+				}
+				else{
+					$("tr>td:first-child:contains("+$(this).val()+")").parent().addClass('hidden');
+				}
+				
+			});					
+		})	
+	</script>
+</body></html>	
+
+
+
+

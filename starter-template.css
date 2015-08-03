@@ -1,0 +1,28 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+
+tr:nth-child(2n+1)
+{
+	background-color: #D3D3D3;
+}
+#fixedInTop
+{
+position:fixed;top:50px;
+display:none;
+}
+
+#fixedInTop.to_top
+{
+display:block;
+}
+.chb
+{
+	    text-align: left;
+}
+
